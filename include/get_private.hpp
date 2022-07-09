@@ -1,7 +1,7 @@
 #pragma once
 
 #define DEFINE_GET_PRIVATE(ret_type, func_name, ret_val)  \
-namespace detail_##func_name {  \
+namespace { namespace get_private_detail_##func_name {  \
 using RetType = ret_type;  \
 template<typename T, T p>  \
 struct Tunnel {  \
@@ -9,5 +9,5 @@ struct Tunnel {  \
 };  \
 template struct Tunnel<RetType, ret_val>;  \
 inline RetType func_name();  \
-}  \
-using detail_##func_name::func_name;
+} }  \
+using get_private_detail_##func_name::func_name;

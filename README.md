@@ -2,17 +2,28 @@
 Get private members of a C++ class.
 
 ```cpp
+#include "get_private.hpp"
+
 class A {
-    int x;
+    static int x;
+    double y;
 };
 
-// int A::*get_A_x() { return &A::x; }  // => Compilation error. Cannot access private members.
-DEFINE_GET_PRIVATE(int A::*, get_A_x, &A::x)
+int A::x = 0;
+
+//                 int &  get_A_x() { return A::x; }  // => Compilation error. Cannot access private members.
+DEFINE_GET_PRIVATE(int &, get_A_x,           A::x)
+
+//                 double A::*  get_A_y() { return &A::y; }
+DEFINE_GET_PRIVATE(double A::*, get_A_y,           &A::y)
 
 int main() {
+    // A::x = 123;  // => Compilation error. Cannot access private members.
+    get_A_x() = 123;
+
     A a;
-    // a.x = 123;  // => Compilation error. Cannot access private members.
-    a.*get_A_x() = 123;
+    // a.y = 4.56;
+    a.*get_A_y() = 4.56;
 }
 ```
 

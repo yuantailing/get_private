@@ -6,10 +6,12 @@ class A {
     int x;
 };
 
+// int A::*get_A_x() { return &A::x; }  // => Compilation error. Cannot access private members.
 DEFINE_GET_PRIVATE(int A::*, get_A_x, &A::x)
 
 int main() {
     A a;
+    // a.x = 123;  // => Compilation error. Cannot access private members.
     a.*get_A_x() = 123;
 }
 ```
